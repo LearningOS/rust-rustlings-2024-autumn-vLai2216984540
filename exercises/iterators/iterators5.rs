@@ -11,7 +11,7 @@
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
 
 use std::collections::HashMap;
 
@@ -24,8 +24,9 @@ enum Progress {
 
 fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
     let mut count = 0;
+
     for val in map.values() {
-        if val == &value {
+        if val == &value{
             count += 1;
         }
     }
@@ -35,7 +36,7 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    map.into_iter().filter(|&map|map.1 == &value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -54,7 +55,9 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    todo!();
+    let count = 0;
+    collection.iter().map(|hash_map|hash_map.iter().filter(|&map|map.1 == &value).count()
+    ).sum()
 }
 
 #[cfg(test)]
@@ -108,7 +111,7 @@ mod tests {
 
     #[test]
     fn count_collection_none() {
-        let collection = get_vec_map();
+        let collection: Vec<HashMap<String, Progress>> = get_vec_map();
         assert_eq!(4, count_collection_iterator(&collection, Progress::None));
     }
 

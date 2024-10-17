@@ -31,7 +31,7 @@ impl Default for Person {
 //
 // Steps:
 // 1. If the length of the provided string is 0, then return the default of
-//    Person.
+//  Person.
 // 2. Split the given string on the commas present in it.
 // 3. Extract the first element from the split operation and use it as the name.
 // 4. If the name is empty, then return the default of Person.
@@ -40,10 +40,21 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        let arr: Vec<&str> = s.split(',').collect();
+        if arr.len() != 2 || arr[0].is_empty(){
+            return Person::default();
+        }
+        if let Ok(value) = arr[1].parse::<usize>(){
+            Person { name: arr[0].to_owned(), age: value }
+        }
+        else {
+            return Person::default();
+        }
+        
     }
 }
 

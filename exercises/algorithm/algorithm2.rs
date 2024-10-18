@@ -5,6 +5,7 @@
 // I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
+use std::mem::swap;
 use std::ptr::NonNull;
 use std::vec::*;
 
@@ -72,8 +73,24 @@ impl<T> LinkedList<T> {
             },
         }
     }
+
 	pub fn reverse(&mut self){
-		// TODO
+        let start = self.start;
+        let mut next  = self.start;
+        while let Some(node) = next{
+            unsafe {
+                // let mut prev = (*node.as_ptr()).prev;
+                // next = (*node.as_ptr()).next;
+
+                // (*node.as_ptr()).prev = next;
+                // (*node.as_ptr()).next = prev;
+
+                swap(&mut (*node.as_ptr()).prev, &mut (*node.as_ptr()).next);
+                next = (*node.as_ptr()).prev;
+            }
+        }
+        self.start = self.end;
+        self.end = start;
 	}
 }
 

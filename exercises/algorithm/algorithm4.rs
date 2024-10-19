@@ -3,7 +3,7 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
+
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -50,13 +50,56 @@ where
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        //TODO
+        match self.root {
+            None => self.root = Some(Box::new(TreeNode::new(value))),
+            Some(ref mut node) => { 
+                if value < node.value{
+                    if let Some(ref mut left) = node.left{
+                        left.insert(value);
+                    }else {
+                        node.left = Some(Box::new(TreeNode::new(value)));
+                    }
+                }
+                else if value > node.value{
+                    if let Some(ref mut right) = node.right{
+                        right.insert(value);
+                    }else {
+                        node.right = Some(Box::new(TreeNode::new(value)));
+                    }
+                }
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        let res = match self.root {
+            None => false,
+            Some(ref node) =>{
+                let mut node = node;
+                loop  {
+                    if value < node.value{
+                        if let Some(ref left) = node.left{
+                            node = left;
+                        }
+                        else {
+                            break false
+                        }
+                    }else if value > node.value {
+                        if let Some(ref right) = node.right{
+                            node = right;
+                        }
+                        else {
+                            break false
+                        }
+                    }else {
+                        break true
+                    }
+                }
+            }
+        };
+        res
     }
 }
 
@@ -67,6 +110,19 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+        if value < self.value{
+            if let Some(ref mut left) = self.left{
+                left.insert(value);
+            }else {
+                self.left = Some(Box::new(TreeNode::new(value)));
+            }
+        }else {
+            if let Some(ref mut right) = self.right{
+                right.insert(value);
+            }else {
+                self.right = Some(Box::new(TreeNode::new(value)));
+            }
+        }
     }
 }
 

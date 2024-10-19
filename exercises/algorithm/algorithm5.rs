@@ -3,7 +3,7 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
+
 use std::collections::VecDeque;
 
 // Define a graph
@@ -25,13 +25,27 @@ impl Graph {
         self.adj[dest].push(src); 
     }
 
-    // Perform a breadth-first search on the graph, return the order of visited nodes
+    // 在图表上执行广度优先搜索，返回访问节点的顺序
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
-        
-		//TODO
+        let mut visit_order = Vec::new();
+        let mut vistied = vec![false;self.adj.len()];
+        let mut queue = VecDeque::new();
 
-        let mut visit_order = vec![];
+        queue.push_back(start);
+        vistied[start] = true;
+
+        while let Some(value) =  queue.pop_front(){
+            visit_order.push(value);
+            for &i in &self.adj[value]{
+                if !vistied[i]{
+                    queue.push_back(i); 
+                    vistied[i] = true;
+                }
+            }    
+        }
+        
         visit_order
+
     }
 }
 
@@ -49,7 +63,7 @@ mod tests {
         graph.add_edge(1, 3);
         graph.add_edge(1, 4);
         graph.add_edge(2, 3);
-        graph.add_edge(3, 4);
+        graph.add_edge(3, 4);//[[1,4],[0,2,3,4],[1,3],[1,2,4],[0,1,3]]
 
         let visited_order = graph.bfs_with_return(0);
         assert_eq!(visited_order, vec![0, 1, 4, 2, 3]);
@@ -59,7 +73,7 @@ mod tests {
     fn test_bfs_different_start() {
         let mut graph = Graph::new(3);
         graph.add_edge(0, 1);
-        graph.add_edge(1, 2);
+        graph.add_edge(1, 2);//[[1],[0,2],[1]]
 
         let visited_order = graph.bfs_with_return(2);
         assert_eq!(visited_order, vec![2, 1, 0]);
